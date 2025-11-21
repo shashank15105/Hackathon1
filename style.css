@@ -1,0 +1,64 @@
+/* ------------------------------------------- */
+/* --- CSS Custom Properties (Color Theme) --- */
+/* ------------------------------------------- */
+:root {
+    /* Warm Primary: Rusty Orange/Terracotta */
+    --color-primary: 21 87% 45%; 
+    /* Accent for positive/success: Green */
+    --color-success: 130 65% 38%; 
+    /* Accent for negative/danger: Red */
+    --color-danger: 350 78% 51%; 
+    /* Backgrounds and Text */
+    --color-bg-light: 0 0% 98%;
+    --color-card-light: 0 0% 100%;
+    --color-text-dark: 210 10% 20%;
+    --color-text-muted: 210 5% 50%;
+}
+
+.dark {
+    --color-primary: 21 87% 55%; /* Lighter primary for dark mode contrast */
+    --color-bg-light: 210 10% 15%;
+    --color-card-light: 210 10% 20%;
+    --color-text-dark: 0 0% 95%;
+    --color-text-muted: 210 5% 65%;
+}
+
+
+/* -------------------------- */
+/* --- Structural Styling --- */
+/* -------------------------- */
+
+/* Chart styling for smoother line graphs */
+.chart-line {
+    fill: none;
+    stroke-linecap: round;
+    stroke-width: 3;
+}
+
+/* Base fill color for charts area */
+.chart-area {
+    opacity: 0.15;
+}
+
+/* Hero Background with dark overlay and fixed height for banner effect */
+.hero-bg {
+    /* Updated to remove the placeholder text from the image itself */
+    background-image: url('https://placehold.co/1C1C1C/DDDDDD');
+    background-size: cover;
+    background-position: center 30%; /* Focus image higher */
+    position: relative;
+}
+.hero-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6); /* Dark overlay for text readability */
+}
+
+#rupee-id{
+    height: 25px;
+    width: 25px;
+}
