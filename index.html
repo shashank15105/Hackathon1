@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DineData Pro - Restaurant Analytics</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Load Inter Font and Material Symbols Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <!-- Link to Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Tailwind Configuration script (must remain inline for CDN configuration) -->
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'hsl(var(--color-primary))',
+                        success: 'hsl(var(--color-success))',
+                        danger: 'hsl(var(--color-danger))',
+                        background: 'hsl(var(--color-bg-light))',
+                        card: 'hsl(var(--color-card-light))',
+                        'text-primary': 'hsl(var(--color-text-dark))',
+                        'text-secondary': 'hsl(var(--color-text-muted))',
+                    },
+                    borderRadius: {
+                        'lg': '0.75rem',
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-text-primary transition-colors duration-300">
+    <!-- Main App Container for continuous scroll -->
+    <div id="app-container">
+
+        <!-- 1. HERO SECTION (Full Width Banner at the top) -->
+        <header id="hero-banner" class="hero-bg h-[50vh] flex items-center justify-center p-4 shadow-xl">
+            <!-- Content Container, relative z-10 ensures it's above the overlay -->
+            <div class="relative z-10 text-center p-4">
+                <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tighter mb-2">
+                    DineData Pro
+                </h1>
+                <h2 class="text-lg sm:text-xl font-light text-primary mb-4">
+                    Real-time Performance Analytics
+                </h2>
+                <p class="text-gray-200 text-base max-w-xl mx-auto hidden sm:block">
+                    Monitor Footfall, optimize Best Sellers, and minimize Food Wastage, all with real-time data visibility below.
+                </p>
+            </div>
+        </header>
+
+        <!-- 2. DASHBOARD SECTION (Analytics View) - Scrollable Content Below Hero -->
+        <div id="dashboard-content" class="flex flex-col lg:flex-row">
+            
+            <!-- Sidebar Navigation (Sticky on large screens) -->
+            <aside class="w-full lg:w-64 bg-card border-b lg:border-r border-gray-200 dark:border-gray-800 p-4 lg:p-6 flex-shrink-0 sticky top-0 lg:h-screen lg:top-0">
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                        <span class="material-symbols-outlined fill-1">restaurant</span>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-extrabold tracking-tight">DineData Pro</h1>
+                        <p class="text-xs text-text-secondary">Analytics Dashboard</p>
+                    </div>
+                </div>
+                
+                <!-- The original weather card has been moved to the main KPI section. -->
+                
+                <nav class="flex lg:flex-col gap-1 overflow-x-auto pb-2 lg:overflow-visible">
+                    <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-primary/10 text-primary font-semibold transition-colors duration-150 shrink-0">
+                        <span class="material-symbols-outlined fill-1">dashboard</span>
+                        <span>Overview</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-text-secondary hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150 shrink-0">
+                        <span class="material-symbols-outlined">analytics</span>
+                        <span>Reports</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-text-secondary hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150 shrink-0">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 p-4 sm:p-8 lg:p-10 bg-background">
+                <div class="max-w-7xl mx-auto space-y-8">
+                    <!-- Header and Filter -->
+                    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Key Metrics Summary</h2>
+                        <div class="flex flex-wrap gap-3">
+                            <button class="flex items-center gap-2 p-2 px-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-card text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <span class="material-symbols-outlined text-base">calendar_today</span>
+                                Last 30 Days
+                                <span class="material-symbols-outlined text-base">expand_more</span>
+                            </button>
+                            <button class="flex items-center gap-2 p-2 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">
+                                <span class="material-symbols-outlined text-base">download</span>
+                                Export
+                            </button>
+                        </div>
+                    </header>
+
+                    <!-- 1. KPI Cards (Footfall, Wastage, Sales, Weather) -->
+                    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        
+                        <!-- Guest Footfall -->
+                        <div class="flex flex-col gap-2 p-6 rounded-2xl bg-card shadow-lg border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-text-secondary font-medium">Guest Footfall</p>
+                                <span class="material-symbols-outlined text-xl text-primary">group</span>
+                            </div>
+                            <p class="text-4xl font-bold tracking-tight">8,452</p>
+                            <p class="text-success text-sm font-medium flex items-center gap-1">
+                                <span class="material-symbols-outlined text-base">trending_up</span>
+                                +12.5% vs Last Period
+                            </p>
+                        </div>
+
+                        <!-- Food Wastage -->
+                        <div class="flex flex-col gap-2 p-6 rounded-2xl bg-card shadow-lg border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-text-secondary font-medium">Food Wastage (%)</p>
+                                <span class="material-symbols-outlined text-xl text-danger">delete_sweep</span>
+                            </div>
+                            <p class="text-4xl font-bold tracking-tight text-danger">4.2%</p>
+                            <p class="text-danger text-sm font-medium flex items-center gap-1">
+                                <span class="material-symbols-outlined text-base">trending_down</span>
+                                -1.8% vs Target (Good!)
+                            </p>
+                        </div>
+
+                        <!-- Top Seller Revenue -->
+                        <div class="flex flex-col gap-2 p-6 rounded-2xl bg-card shadow-lg border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-text-secondary font-medium">Top Seller Revenue</p>
+                            <img src="indian-digital-rupee-sign-background-new-face-indias-payment-system_1017-59951-Photoroom.png" id="rupee-id">                            </div>
+                            <p class="text-4xl font-bold tracking-tight">₹12,870</p>
+                            <p class="text-success text-sm font-medium flex items-center gap-1">
+                                <span class="material-symbols-outlined text-base">trending_up</span>
+                                +8.2% vs Last Period
+                            </p>
+                        </div>
+
+                        <!-- 4. Weather KPI Card (Replaced Data Visibility) -->
+                        <div class="flex flex-col gap-2 p-6 rounded-2xl bg-card shadow-lg border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-text-secondary font-medium">Current Temperature</p>
+                                <span id="weather-icon" class="material-symbols-outlined text-xl text-primary">cloud</span>
+                            </div>
+                            <p id="weather-temp" class="text-4xl font-bold tracking-tight">--°C</p>
+                            <p class="text-text-secondary text-sm font-medium flex items-center gap-1">
+                                <span id="weather-city">Loading...</span> 
+                                (<span id="weather-desc" class="font-normal">Clear Skies</span>)
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- 2. Charts Section (Footfall & Best Sellers) -->
+                    <section class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+                        <!-- Daily Footfall Trend Chart (Larger Chart) -->
+                        <div class="lg:col-span-3 flex flex-col gap-4 p-6 rounded-2xl bg-card shadow-lg border border-gray-100 dark:border-gray-700">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-lg font-bold">Daily Footfall Trend</p>
+                                    <p class="text-sm text-text-secondary">Visitor count over the last 4 weeks</p>
+                                </div>
+                                <div class="flex items-center gap-4 text-xs text-text-secondary">
+                                    <div class="flex items-center gap-1">
+                                        <span class="w-3 h-3 rounded-full bg-primary"></span>
+                                        Current Period
+                                    </div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="w-3 h-3 rounded-full bg-gray-400"></span>
+                                        Previous Period
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- SVG Line Chart Mockup -->
+                            <div class="h-64 w-full pt-4 relative">
+                                <svg viewBox="0 0 500 200" preserveAspectRatio="none" class="w-full h-full">
+                                    <!-- Define gradient for area fill -->
+                                    <defs>
+                                        <linearGradient id="footfallArea" x1="0" x2="0" y1="0" y2="1">
+                                            <stop offset="0%" stop-color="hsl(var(--color-primary))" stop-opacity="0.3"/>
+                                            <stop offset="100%" stop-color="hsl(var(--color-primary))" stop-opacity="0"/>
+                                        </linearGradient>
+                                    </defs>
+
+                                    <!-- Area Path (Current Period) -->
+                                    <path d="M0 109C18 109 18 21 36 21C54 21 54 41 73 41C91 41 91 93 109 93C127 93 127 33 145 33C163 33 163 101 182 101C200 101 200 61 218 61C236 61 236 45 254 45C272 45 272 121 290 121C309 121 309 180 327 180C345 180 345 10 363 10C381 10 381 81 399 81C418 81 418 129 436 129C454 129 454 25 472 25L500 50 V200 H0 Z" fill="url(#footfallArea)" class="chart-area"></path>
+                                    
+                                    <!-- Line Path (Current Period) -->
+                                    <path d="M0 109C18 109 18 21 36 21C54 21 54 41 73 41C91 41 91 93 109 93C127 93 127 33 145 33C163 33 163 101 182 101C200 101 200 61 218 61C236 61 236 45 254 45C272 45 272 121 290 121C309 121 309 180 327 180C345 180 345 10 363 10C381 10 381 81 399 81C418 81 418 129 436 129C454 129 454 25 472 25L500 50" stroke="hsl(var(--color-primary))" class="chart-line"></path>
+                                    
+                                    <!-- Line Path (Previous Period - Dashed) -->
+                                    <path d="M0 140C18 140 18 50 36 50C54 50 54 70 73 70C91 70 91 120 109 120C127 120 127 60 145 60C163 60 163 130 182 130C200 130 200 90 218 90C236 90 236 75 254 75C272 75 272 150 290 150C309 150 309 195 327 195C345 195 345 30 363 30C381 30 381 110 399 110C418 110 418 160 436 160C454 160 454 55 472 55L500 80" stroke="hsl(210 5% 50%)" stroke-dasharray="4 4" class="chart-line"></path>
+
+                                    <!-- X-Axis Labels -->
+                                    <text x="62" y="200" fill="hsl(var(--color-text-muted))" font-size="12" text-anchor="middle">Week 1</text>
+                                    <text x="187" y="200" fill="hsl(var(--color-text-muted))" font-size="12" text-anchor="middle">Week 2</text>
+                                    <text x="312" y="200" fill="hsl(var(--color-text-muted))" font-size="12" text-anchor="middle">Week 3</text>
+                                    <text x="437" y="200" fill="hsl(var(--color-text-muted))" font-size="12" text-anchor="middle">Week 4</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Best Selling Items Bar Chart -->
+                        <div class="lg:col-span-2 flex flex-col gap-4 p-6 rounded-2xl bg-card shadow-lg border border-gray-100 dark:border-gray-700">
+                            <p class="text-lg font-bold">Top Selling Items (Units)</p>
+                            <p class="text-sm text-text-secondary">Items sold in the last 30 days.</p>
+                            <div class="flex flex-col gap-4 pt-2">
+                                
+                                <!-- Item 1: Truffle Pasta -->
+                                <div class="grid grid-cols-[1fr_auto_auto] items-center gap-x-4">
+                                    <p class="text-sm font-medium">Truffle Pasta</p>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full w-full min-w-28">
+                                        <div class="bg-primary h-full rounded-full" style="width: 95%;"></div>
+                                    </div>
+                                    <p class="text-sm font-semibold">1,240</p>
+                                </div>
+
+                                <!-- Item 2: Ribeye Steak -->
+                                <div class="grid grid-cols-[1fr_auto_auto] items-center gap-x-4">
+                                    <p class="text-sm font-medium">Ribeye Steak</p>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full w-full min-w-28">
+                                        <div class="bg-primary h-full rounded-full" style="width: 78%;"></div>
+                                    </div>
+                                    <p class="text-sm font-semibold">980</p>
+                                </div>
+
+                                <!-- Item 3: Espresso Martini -->
+                                <div class="grid grid-cols-[1fr_auto_auto] items-center gap-x-4">
+                                    <p class="text-sm font-medium">Espresso Martini</p>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full w-full min-w-28">
+                                        <div class="bg-primary h-full rounded-full" style="width: 65%;"></div>
+                                    </div>
+                                    <p class="text-sm font-semibold">812</p>
+                                </div>
+
+                                <!-- Item 4: Caesar Salad -->
+                                <div class="grid grid-cols-[1fr_auto_auto] items-center gap-x-4">
+                                    <p class="text-sm font-medium">Caesar Salad</p>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full w-full min-w-28">
+                                        <div class="bg-primary h-full rounded-full" style="width: 52%;"></div>
+                                    </div>
+                                    <p class="text-sm font-semibold">650</p>
+                                </div>
+
+                                <!-- Item 5: Cheesecake -->
+                                <div class="grid grid-cols-[1fr_auto_auto] items-center gap-x-4">
+                                    <p class="text-sm font-medium">Cheesecake</p>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full w-full min-w-28">
+                                        <div class="bg-primary h-full rounded-full" style="width: 35%;"></div>
+                                    </div>
+                                    <p class="text-sm font-semibold">430</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 3. Food Wastage Breakdown Chart (Donut Chart Mockup) -->
+                    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="flex flex-col gap-4 p-6 rounded-2xl bg-card shadow-lg border border-gray-100 dark:border-gray-700">
+                            <p class="text-lg font-bold">Food Wastage Breakdown</p>
+                            <p class="text-sm text-text-secondary">Wastage by Source (Total: 4.2% of food cost)</p>
+                            
+                            <div class="flex flex-col sm:flex-row items-center justify-between gap-6 pt-2">
+                                <!-- Donut Chart -->
+                                <div class="w-36 h-36 relative flex-shrink-0">
+                                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                                        <!-- Background circle (optional, for aesthetics) -->
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="hsl(var(--color-bg-light))" stroke-width="10" class="dark:stroke-gray-800"/>
+
+                                        <!-- Prep Waste (35% of 4.2% total) -->
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="hsl(var(--color-primary))" stroke-width="10" stroke-dasharray="110 283" transform="rotate(-90 50 50)"/>
+                                        
+                                        <!-- Plate Waste (45% of 4.2% total) -->
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="hsl(var(--color-success))" stroke-width="10" stroke-dasharray="142 283" transform="rotate(49 50 50)"/>
+                                        
+                                        <!-- Inventory Spoilage (20% of 4.2% total) -->
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="hsl(var(--color-danger))" stroke-width="10" stroke-dasharray="61 283" transform="rotate(200 50 50)"/>
+
+                                        <!-- Center text -->
+                                        <text x="50" y="50" text-anchor="middle" dominant-baseline="middle" class="text-xl font-extrabold fill-text-primary">4.2<tspan font-size="10">%</tspan></text>
+                                    </svg>
+                                </div>
+
+                                <!-- Legend/Details -->
+                                <div class="flex flex-col space-y-2 w-full">
+                                    <div class="flex justify-between items-center text-sm">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-3 h-3 rounded-full bg-primary"></span>
+                                            <span class="text-text-secondary">Prep Waste (35%)</span>
+                                        </div>
+                                        <span class="font-semibold">1.47%</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-3 h-3 rounded-full bg-success"></span>
+                                            <span class="text-text-secondary">Plate Waste (45%)</span>
+                                        </div>
+                                        <span class="font-semibold">1.89%</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-3 h-3 rounded-full bg-danger"></span>
+                                            <span class="text-text-secondary">Spoilage (20%)</span>
+                                        </div>
+                                        <span class="font-semibold">0.84%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footfall by Hour of Day -->
+                        <div class="flex flex-col gap-4 p-6 rounded-2xl bg-card shadow-lg border border-gray-100 dark:border-gray-700">
+                            <p class="text-lg font-bold">Busiest Hours (Avg.)</p>
+                            <p class="text-sm text-text-secondary">Average visitor count by hour.</p>
+                            
+                            <div class="flex-1 space-y-3 pt-2">
+                                <!-- Lunch Peak -->
+                                <div class="grid grid-cols-[auto_1fr_auto] items-center gap-x-3 text-sm">
+                                    <span class="font-bold text-text-secondary">1 PM</span>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full w-full">
+                                        <div class="bg-primary h-full rounded-full" style="width: 70%;"></div>
+                                    </div>
+                                    <span class="font-semibold">45</span>
+                                </div>
+                                <!-- Mid Afternoon -->
+                                <div class="grid grid-cols-[auto_1fr_auto] items-center gap-x-3 text-sm">
+                                    <span class="font-bold text-text-secondary">4 PM</span>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full w-full">
+                                        <div class="bg-primary h-full rounded-full" style="width: 40%;"></div>
+                                    </div>
+                                    <span class="font-semibold">25</span>
+                                </div>
+                                <!-- Dinner Peak (Busiest) -->
+                                <div class="grid grid-cols-[auto_1fr_auto] items-center gap-x-3 text-sm">
+                                    <span class="font-bold text-text-secondary">7 PM</span>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full w-full">
+                                        <div class="bg-primary h-full rounded-full" style="width: 95%;"></div>
+                                    </div>
+                                    <span class="font-semibold">58</span>
+                                </div>
+                                <!-- Late Night -->
+                                <div class="grid grid-cols-[auto_1fr_auto] items-center gap-x-3 text-sm">
+                                    <span class="font-bold text-text-secondary">9 PM</span>
+                                    <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded-full w-full">
+                                        <div class="bg-primary h-full rounded-full" style="width: 60%;"></div>
+                                    </div>
+                                    <span class="font-semibold">38</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 4. Top Performing Items Table -->
+                    <section>
+                        <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700 bg-card">
+                            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-bold">Detailed Menu Performance</h3>
+                                <p class="text-sm text-text-secondary">Sales, cost, and profitability analysis for key items.</p>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead class="bg-gray-50 dark:bg-gray-800">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-bold text-text-secondary uppercase tracking-wider">Item</th>
+                                            <th class="px-6 py-3 text-left text-xs font-bold text-text-secondary uppercase tracking-wider">Sales Units</th>
+                                            <th class="px-6 py-3 text-left text-xs font-bold text-text-secondary uppercase tracking-wider">Revenue</th>
+                                            <th class="px-6 py-3 text-left text-xs font-bold text-text-secondary uppercase tracking-wider">Profit Margin</th>
+                                            <th class="px-6 py-3 text-left text-xs font-bold text-text-secondary uppercase tracking-wider">Customer Rating</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                                        <!-- Data Row 1 (Truffle Pasta) -->
+                                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Truffle Pasta</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm">1,240</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">$15,500</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-success">65%</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm flex items-center gap-1 text-yellow-500">
+                                                4.9 <span class="material-symbols-outlined text-base fill-1">star</span>
+                                            </td>
+                                        </tr>
+                                        <!-- Data Row 2 (Ribeye Steak) -->
+                                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Ribeye Steak</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm">980</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">$24,500</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-success">58%</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm flex items-center gap-1 text-yellow-500">
+                                                4.7 <span class="material-symbols-outlined text-base fill-1">star</span>
+                                            </td>
+                                        </tr>
+                                        <!-- Data Row 3 (Caesar Salad) -->
+                                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Caesar Salad</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm">650</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">$4,550</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-success">72%</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm flex items-center gap-1 text-yellow-500">
+                                                4.6 <span class="material-symbols-outlined text-base fill-1">star</span>
+                                            </td>
+                                        </tr>
+                                        <!-- Data Row 4 (Cheesecake) -->
+                                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">Cheesecake</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm">430</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">$3,440</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-success">68%</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm flex items-center gap-1 text-yellow-500">
+                                                4.8 <span class="material-symbols-outlined text-base fill-1">star</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Dark Mode Toggle (for user experience) -->
+                    <div class="flex justify-end pt-4 pb-10">
+                        <button id="themeToggleDashboard" class="flex items-center gap-2 p-2 px-4 rounded-full bg-card border border-gray-300 dark:border-gray-700 text-sm text-text-secondary shadow-md hover:shadow-lg transition-all">
+                            <span id="themeIconDashboard" class="material-symbols-outlined">dark_mode</span>
+                            <span id="themeTextDashboard">Toggle Dark Mode</span>
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Link to JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
